@@ -10,9 +10,21 @@ function Home() {
 
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [activeCategory, setActiveCategory] = useState(0);
+  const [activeSort, setActiveSort] = useState({
+    name: "популярности (DESC)",
+    sortProperty: "-rating",
+  });
 
   useEffect(() => {
-    fetch("https://647323b9d784bccb4a3c4b0d.mockapi.io/items")
+    setIsLoading(true);
+
+    const order = activeSort.sortProperty.includes("-") ? "desc" : "asc";
+    const sortBy = activeSort.sortProperty.replace("-", "");
+    const category = activeCategory ? `category=${activeCategory}` : ""
+    const url = `https://647323b9d784bccb4a3c4b0d.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order}`;
+
+    fetch(url)
       .then((res) => res.json())
       .then((arr) => {
         setItems(arr);
@@ -21,12 +33,20 @@ function Home() {
       .catch((e) => {
         throw new Error(e);
       });
-  }, []);
+    window.scrollTo(0, 0);
+  }, [activeCategory, activeSort]);
+
   return (
     <>
       <div className="content__top">
-        <Categories />
-        <Sort />
+        <Categories
+          activeCategory={activeCategory}
+          onToggleActiveCategory={(i) => setActiveCategory(i)}
+        />
+        <Sort
+          activeSort={activeSort}
+          onToggleActiveSort={(obj) => setActiveSort(obj)}
+        />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">

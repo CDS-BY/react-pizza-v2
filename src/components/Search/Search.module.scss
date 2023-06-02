@@ -1,0 +1,37 @@
+.root {
+  position: relative;
+  height: 45px;
+  flex: 0 1 400px;
+}
+.input {
+  height: 100%;
+  width: 100%;
+  border: 1px solid #acacac;
+  border-radius: 10px;
+  padding: 5px 45px 5px 45px;
+  font-size: 20px;
+  color: #000;
+  &::placeholder {
+    color: rgba(0, 0, 0, 0.42);
+  }
+}
+.serchIcon {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 35px;
+  height: 35px;
+  opacity: 0.5;
+}
+.clearIcon {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  opacity: 0.5;
+  &:hover {
+    opacity: 0.8;
+  }
+}

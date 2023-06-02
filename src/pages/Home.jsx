@@ -1,12 +1,14 @@
-import PizzaBlock from "../components/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
+import Pagination from "../components/Pagination";
+// import PizzaBlock from "../components/PizzaBlock";
+// import PizzaList from "../components/PizzaList";
 
 import { useEffect, useState } from "react";
 
-function Home() {
-  // https://647323b9d784bccb4a3c4b0d.mockapi.io/items
+function Home({ searchValue }) {
+  // https://647323b9d784bccb4a3c4b0d.mockapi.io/itemsсдуфк
 
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -21,8 +23,9 @@ function Home() {
 
     const order = activeSort.sortProperty.includes("-") ? "desc" : "asc";
     const sortBy = activeSort.sortProperty.replace("-", "");
-    const category = activeCategory ? `category=${activeCategory}` : ""
-    const url = `https://647323b9d784bccb4a3c4b0d.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order}`;
+    const category = activeCategory ? `&category=${activeCategory}` : "";
+    const search = searchValue ? `&search=${searchValue}` : "";
+    const url = `https://647323b9d784bccb4a3c4b0d.mockapi.io/items?sortBy=${sortBy}&order=${order}${category}${search}`;
 
     fetch(url)
       .then((res) => res.json())
@@ -34,7 +37,10 @@ function Home() {
         throw new Error(e);
       });
     window.scrollTo(0, 0);
-  }, [activeCategory, activeSort]);
+  }, [activeCategory, activeSort, searchValue]);
+
+  const skeletons = [...new Array(3)].map((_, i) => <Skeleton key={i} />);
+  // const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
 
   return (
     <>
@@ -50,9 +56,7 @@ function Home() {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
-        {isLoading
-          ? [...new Array(6)].map((_, i) => <Skeleton key={i} />)
-          : items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
+        {isLoading ? skeletons : <Pagination items={items} />}
       </div>
     </>
   );

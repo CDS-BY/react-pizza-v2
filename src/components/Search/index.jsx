@@ -2,7 +2,11 @@ import styles from "./Search.module.scss";
 import searchIcon from "../../assets/img/search_icon.svg";
 import clearIcon from "../../assets/img/clear_icon.svg";
 
-function Search({searchValue, onChangeSearchValue}) {
+import { useContext } from "react";
+import { SearchContext } from "../../App";
+
+function Search() {
+  const { searchValue, setSearchValue } = useContext(SearchContext);
 
   return (
     <div className={styles.root}>
@@ -10,13 +14,13 @@ function Search({searchValue, onChangeSearchValue}) {
       <input
         value={searchValue}
         className={styles.input}
-        onChange={(e) => onChangeSearchValue(e.target.value)}
+        onChange={(e) => setSearchValue(e.target.value)}
         type="text"
         placeholder="Поиск"
       />
       {searchValue && (
         <img
-          onClick={() => onChangeSearchValue("")}
+          onClick={() => setSearchValue("")}
           className={styles.clearIcon}
           src={clearIcon}
           alt="Крестик"

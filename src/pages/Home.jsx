@@ -3,12 +3,12 @@ import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import Pagination from "../components/Pagination";
 import PizzaBlock from "../components/PizzaBlock";
-// import PizzaList from "../components/PizzaList";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { SearchContext } from "../App";
 
-function Home({ searchValue }) {
-  // https://647323b9d784bccb4a3c4b0d.mockapi.io/itemsсдуфк
+function Home() {
+  const { searchValue } = useContext(SearchContext);
 
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -17,7 +17,7 @@ function Home({ searchValue }) {
     name: "популярности (DESC)",
     sortProperty: "-rating",
   });
-  const [currentPage, setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     setIsLoading(true);
@@ -56,9 +56,7 @@ function Home({ searchValue }) {
         />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">
-        {isLoading ? skeletons : pizzas}
-      </div>
+      <div className="content__items">{isLoading ? skeletons : pizzas}</div>
       <Pagination onChangePage={(i) => setCurrentPage(i)} />
     </>
   );

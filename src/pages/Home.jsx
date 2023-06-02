@@ -2,7 +2,7 @@ import Skeleton from "../components/PizzaBlock/Skeleton";
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import Pagination from "../components/Pagination";
-// import PizzaBlock from "../components/PizzaBlock";
+import PizzaBlock from "../components/PizzaBlock";
 // import PizzaList from "../components/PizzaList";
 
 import { useEffect, useState } from "react";
@@ -17,6 +17,7 @@ function Home({ searchValue }) {
     name: "популярности (DESC)",
     sortProperty: "-rating",
   });
+  const [currentPage, setCurrentPage] = useState(1)
 
   useEffect(() => {
     setIsLoading(true);
@@ -25,7 +26,7 @@ function Home({ searchValue }) {
     const sortBy = activeSort.sortProperty.replace("-", "");
     const category = activeCategory ? `&category=${activeCategory}` : "";
     const search = searchValue ? `&search=${searchValue}` : "";
-    const url = `https://647323b9d784bccb4a3c4b0d.mockapi.io/items?sortBy=${sortBy}&order=${order}${category}${search}`;
+    const url = `https://647323b9d784bccb4a3c4b0d.mockapi.io/items?page=${currentPage}&limit=4&sortBy=${sortBy}&order=${order}${category}${search}`;
 
     fetch(url)
       .then((res) => res.json())
@@ -37,10 +38,10 @@ function Home({ searchValue }) {
         throw new Error(e);
       });
     window.scrollTo(0, 0);
-  }, [activeCategory, activeSort, searchValue]);
+  }, [activeCategory, activeSort, searchValue, currentPage]);
 
-  const skeletons = [...new Array(3)].map((_, i) => <Skeleton key={i} />);
-  // const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
+  const skeletons = [...new Array(4)].map((_, i) => <Skeleton key={i} />);
+  const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
 
   return (
     <>
@@ -56,8 +57,9 @@ function Home({ searchValue }) {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
-        {isLoading ? skeletons : <Pagination items={items} />}
+        {isLoading ? skeletons : pizzas}
       </div>
+      <Pagination onChangePage={(i) => setCurrentPage(i)} />
     </>
   );
 }

@@ -37,7 +37,17 @@ body {
   }
 
   &__items {
-
+    display: grid;
+    grid-template-columns: repeat(4, minmax(290px, 1fr));
+    column-gap: 30px;
+    row-gap: 60px;
+    justify-items: center;
+    @media (max-width: 1420px) {
+      grid-template-columns: repeat(3, minmax(290px, 1fr));
+    }
+    @media (max-width: 1090px) {
+      grid-template-columns: repeat(2, minmax(290px, 1fr));
+    }
   }
 
   &__top {

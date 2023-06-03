@@ -2,11 +2,12 @@ import styles from "./Search.module.scss";
 import searchIcon from "../../assets/img/search_icon.svg";
 import clearIcon from "../../assets/img/clear_icon.svg";
 
-import { useContext } from "react";
-import { SearchContext } from "../../App";
+import { useSelector, useDispatch } from "react-redux";
+import { onChangeSearchValue, onDeleteSearchValue } from "./SearchSlice";
 
 function Search() {
-  const { searchValue, setSearchValue } = useContext(SearchContext);
+  const { searchValue } = useSelector((state) => state.search);
+  const dispatch = useDispatch();
 
   return (
     <div className={styles.root}>
@@ -14,13 +15,13 @@ function Search() {
       <input
         value={searchValue}
         className={styles.input}
-        onChange={(e) => setSearchValue(e.target.value)}
+        onChange={(e) => dispatch(onChangeSearchValue(e.target.value))}
         type="text"
         placeholder="Поиск"
       />
       {searchValue && (
         <img
-          onClick={() => setSearchValue("")}
+          onClick={() => dispatch(onDeleteSearchValue())}
           className={styles.clearIcon}
           src={clearIcon}
           alt="Крестик"

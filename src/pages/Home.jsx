@@ -3,6 +3,7 @@ import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import Pagination from "../components/Pagination";
 import PizzaBlock from "../components/PizzaBlock";
+import axios from "axios";
 
 import { useEffect, useState } from "react";
 
@@ -12,16 +13,10 @@ function Home() {
   const { activeCategory } = useSelector((state) => state.categories);
   const { searchValue } = useSelector((state) => state.search);
   const { activeSort } = useSelector((state) => state.sort);
-
-  //===========================================================
+  const { currentPage } = useSelector((state) => state.pagination);
 
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  // const [activeSort, setActiveSort] = useState({
-  //   name: "популярности (DESC)",
-  //   sortProperty: "-rating",
-  // });
-  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     setIsLoading(true);
@@ -32,15 +27,11 @@ function Home() {
     const search = searchValue ? `&search=${searchValue}` : "";
     const url = `https://647323b9d784bccb4a3c4b0d.mockapi.io/items?page=${currentPage}&limit=4&sortBy=${sortBy}&order=${order}${category}${search}`;
 
-    fetch(url)
-      .then((res) => res.json())
-      .then((arr) => {
-        setItems(arr);
-        setIsLoading(false);
-      })
-      .catch((e) => {
-        throw new Error(e);
-      });
+    axios.get(url).then((response) => {
+      setItems(response.data);
+      setIsLoading(false);
+    });
+
     window.scrollTo(0, 0);
   }, [activeCategory, activeSort, searchValue, currentPage]);
 
@@ -55,7 +46,7 @@ function Home() {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? skeletons : pizzas}</div>
-      <Pagination onChangePage={(i) => setCurrentPage(i)} />
+      <Pagination />
     </>
   );
 }

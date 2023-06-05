@@ -1,10 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import categories from "../components/Categories/CategoriesSlice";
-import search from "../components/Search/SearchSlice"
-import sort from '../components/Sort/SortSlice'
+import search from "../components/Search/SearchSlice";
+import sort from "../components/Sort/SortSlice";
+import pagination from "../components/Pagination/PagintionSlice";
 
 export const store = configureStore({
   reducer: {
-    categories, search, sort
+    categories,
+    search,
+    sort,
+    pagination,
   },
 });

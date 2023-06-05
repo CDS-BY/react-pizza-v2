@@ -2,8 +2,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { onToggleSortList, onSetActiveSort } from "./SortSlice";
 
 function Sort() {
-  
-  const { sortList, activeSort, isOpenSortList } = useSelector((state) => state.sort)
+  const { sortList, activeSort, isOpenSortList } = useSelector(
+    (state) => state.sort
+  );
   const dispatch = useDispatch();
 
   const onChooseActiveSort = (obj) => {

@@ -2,26 +2,49 @@ import styles from "./Search.module.scss";
 import searchIcon from "../../assets/img/search_icon.svg";
 import clearIcon from "../../assets/img/clear_icon.svg";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { onChangeSearchValue, onDeleteSearchValue } from "./SearchSlice";
+import { useRef } from "react";
+import debounce from "lodash.debounce";
+import { useState, useCallback } from "react";
 
 function Search() {
-  const { searchValue } = useSelector((state) => state.search);
+  const [value, setValue] = useState("");
   const dispatch = useDispatch();
+  const inputRef = useRef();
+  // eslint-disable-next-line
+  const updateSearchValue = useCallback(
+    debounce((str) => {
+      dispatch(onChangeSearchValue(str));
+    }, 500),
+    []
+  );
+
+  const onChangeInput = (e) => {
+    setValue(e.target.value);
+    updateSearchValue(e.target.value);
+  };
+
+  const onClearInput = () => {
+    dispatch(onDeleteSearchValue());
+    setValue("");
+    inputRef.current.focus();
+  };
 
   return (
     <div className={styles.root}>
       <img className={styles.serchIcon} src={searchIcon} alt="Лупа и Пупа" />
       <input
-        value={searchValue}
+        ref={inputRef}
+        value={value}
         className={styles.input}
-        onChange={(e) => dispatch(onChangeSearchValue(e.target.value))}
+        onChange={(e) => onChangeInput(e)}
         type="text"
         placeholder="Поиск"
       />
-      {searchValue && (
+      {value && (
         <img
-          onClick={() => dispatch(onDeleteSearchValue())}
+          onClick={onClearInput}
           className={styles.clearIcon}
           src={clearIcon}
           alt="Крестик"

@@ -1,10 +1,9 @@
 import { useSelector, useDispatch } from "react-redux";
-import { onToggleActiveCategory } from "./CategoriesSlice";
+import { setActiveCategoryId } from "./CategoriesSlice";
 
 function Categories() {
-
-  const {items, activeCategory} = useSelector(state => state.categories)
-  const dispatch = useDispatch()
+  const { items, activeCategoryId } = useSelector((state) => state.categories);
+  const dispatch = useDispatch();
 
   return (
     <div className="categories">
@@ -12,8 +11,8 @@ function Categories() {
         {items.map((categoryName, i) => (
           <li
             key={i}
-            onClick={() => dispatch(onToggleActiveCategory(i))}
-            className={activeCategory === i ? "active" : ""}
+            onClick={() => dispatch(setActiveCategoryId(i))}
+            className={activeCategoryId === i ? "active" : ""}
           >
             {categoryName}
           </li>

@@ -1,11 +1,28 @@
 import { useSelector, useDispatch } from "react-redux";
 import { onToggleSortList, onSetActiveSort } from "./SortSlice";
+import { useEffect, useRef } from "react";
 
 function Sort() {
   const { sortList, activeSort, isOpenSortList } = useSelector(
     (state) => state.sort
   );
   const dispatch = useDispatch();
+  const sortRef = useRef();
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!e.composedPath().includes(sortRef.current)) {
+        dispatch(onToggleSortList(false));
+      }
+    };
+
+    document.body.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.body.removeEventListener("click", handleClickOutside);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onChooseActiveSort = (obj) => {
     dispatch(onSetActiveSort(obj));
@@ -13,7 +30,7 @@ function Sort() {
   };
 
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <svg
           width="10"

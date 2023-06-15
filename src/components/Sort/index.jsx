@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { onToggleSortList, onSetActiveSort } from "./SortSlice";
+import { onToggleSortList, onSetActiveSort } from "../../redux/slices/sortSlice";
 import { useEffect, useRef } from "react";
 
 function Sort() {

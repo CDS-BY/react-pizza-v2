@@ -3,9 +3,9 @@ import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import Pagination from "../components/Pagination";
 import PizzaBlock from "../components/PizzaBlock";
-import { setCurrentPage } from "../components/Pagination/PagintionSlice";
-import { onSetActiveSort } from "../components/Sort/SortSlice";
-import { setActiveCategoryId } from "../components/Categories/CategoriesSlice";
+import { setCurrentPage } from "../redux/slices/pagintionSlice";
+import { onSetActiveSort } from "../redux/slices/sortSlice";
+import { setActiveCategoryId } from "../redux/slices/categoriesSlice";
 
 import axios from "axios";
 import qs from "qs";

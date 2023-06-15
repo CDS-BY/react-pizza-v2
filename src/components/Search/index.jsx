@@ -3,7 +3,10 @@ import searchIcon from "../../assets/img/search_icon.svg";
 import clearIcon from "../../assets/img/clear_icon.svg";
 
 import { useDispatch } from "react-redux";
-import { onChangeSearchValue, onDeleteSearchValue } from "./SearchSlice";
+import {
+  onChangeSearchValue,
+  onDeleteSearchValue,
+} from "../../redux/slices/searchSlice";
 import { useRef } from "react";
 import debounce from "lodash.debounce";
 import { useState, useCallback } from "react";

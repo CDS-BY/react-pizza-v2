@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { setActiveCategoryId } from "./CategoriesSlice";
+import { setActiveCategoryId } from "../../redux/slices/categoriesSlice";
 
 function Categories() {
   const { items, activeCategoryId } = useSelector((state) => state.categories);

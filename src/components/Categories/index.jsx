@@ -1,8 +1,8 @@
 import { useSelector, useDispatch } from "react-redux";
-import { setActiveCategoryId } from "../../redux/slices/categoriesSlice";
+import { selectCategories, setActiveCategoryId } from "../../redux/slices/categoriesSlice";
 
 function Categories() {
-  const { items, activeCategoryId } = useSelector((state) => state.categories);
+  const { items, activeCategoryId } = useSelector(selectCategories);
   const dispatch = useDispatch();
 
   return (

@@ -4,8 +4,8 @@ import Sort from "../components/Sort";
 import Pagination from "../components/Pagination";
 import PizzaBlock from "../components/PizzaBlock";
 import { setCurrentPage } from "../redux/slices/pagintionSlice";
-import { onSetActiveSort } from "../redux/slices/sortSlice";
-import { setActiveCategoryId } from "../redux/slices/categoriesSlice";
+import { onSetActiveSort, selectSort } from "../redux/slices/sortSlice";
+import { selectCategories, setActiveCategoryId } from "../redux/slices/categoriesSlice";
 import { fetchPizzas } from "../redux/slices/pizzaSlice";
 
 import qs from "qs";
@@ -14,17 +14,18 @@ import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 function Home() {
-  const { activeCategoryId } = useSelector((state) => state.categories);
-  const { searchValue } = useSelector((state) => state.search);
-  const { activeSort, sortList } = useSelector((state) => state.sort);
-  const { currentPage } = useSelector((state) => state.pagination);
-  const { items, status } = useSelector((state) => state.pizza);
-
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isMounted = useRef(false);
+
+  const { searchValue } = useSelector((state) => state.search);
+  const { items, status } = useSelector((state) => state.pizza);
+  
+  const { activeSort, sortList } = useSelector(selectSort);
+  const { activeCategoryId } = useSelector(selectCategories);
+  const { currentPage } = useSelector((state) => state.pagination);
 
   const isSearch = useRef(false);
-  const isMounted = useRef(false);
 
   const getPizzas = async () => {
     const sortBy = activeSort.sortProperty.replace("-", "");

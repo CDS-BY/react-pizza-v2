@@ -15,6 +15,7 @@ function Search() {
   const [value, setValue] = useState("");
   const dispatch = useDispatch();
   const inputRef = useRef();
+  
   // eslint-disable-next-line
   const updateSearchValue = useCallback(
     debounce((str) => {

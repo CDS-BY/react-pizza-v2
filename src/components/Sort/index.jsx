@@ -1,10 +1,10 @@
 import { useSelector, useDispatch } from "react-redux";
-import { onToggleSortList, onSetActiveSort } from "../../redux/slices/sortSlice";
+import { onToggleSortList, onSetActiveSort, selectSort } from "../../redux/slices/sortSlice";
 import { useEffect, useRef } from "react";
 
 function Sort() {
   const { sortList, activeSort, isOpenSortList } = useSelector(
-    (state) => state.sort
+    selectSort
   );
   const dispatch = useDispatch();
   const sortRef = useRef();

@@ -1,0 +1,27 @@
+.root {
+  max-width: 800px;
+  margin: 40px auto;
+  display: grid;
+  row-gap: 20px;
+}
+.image {
+  margin: 0 auto;
+}
+.description {
+  display: grid;
+  row-gap: 10px;
+}
+.title {
+  font-weight: 700;
+}
+.price {
+  font-size: 20px;
+}
+.link {
+  justify-self: end;
+  font-size: 22px;
+  font-weight: 500;
+  &:hover {
+    text-decoration: underline;
+  }
+}

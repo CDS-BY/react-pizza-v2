@@ -5,7 +5,10 @@ import Pagination from "../components/Pagination";
 import PizzaBlock from "../components/PizzaBlock";
 import { setCurrentPage } from "../redux/slices/pagintionSlice";
 import { onSetActiveSort, selectSort } from "../redux/slices/sortSlice";
-import { selectCategories, setActiveCategoryId } from "../redux/slices/categoriesSlice";
+import {
+  selectCategories,
+  setActiveCategoryId,
+} from "../redux/slices/categoriesSlice";
 import { fetchPizzas } from "../redux/slices/pizzaSlice";
 
 import qs from "qs";
@@ -20,7 +23,7 @@ function Home() {
 
   const { searchValue } = useSelector((state) => state.search);
   const { items, status } = useSelector((state) => state.pizza);
-  
+
   const { activeSort, sortList } = useSelector(selectSort);
   const { activeCategoryId } = useSelector(selectCategories);
   const { currentPage } = useSelector((state) => state.pagination);
@@ -81,7 +84,9 @@ function Home() {
   }, []);
 
   const skeletons = [...new Array(4)].map((_, i) => <Skeleton key={i} />);
-  const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
+  const pizzas = items.map((obj) => (
+    <PizzaBlock key={obj.id} {...obj} />
+  ));
 
   return (
     <>

@@ -3,30 +3,35 @@ import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import Pagination from "../components/Pagination";
 import PizzaBlock from "../components/PizzaBlock";
-import { setCurrentPage } from "../redux/slices/pagintionSlice";
+import {
+  selectPagination,
+  setCurrentPage,
+} from "../redux/slices/pagintionSlice";
 import { onSetActiveSort, selectSort } from "../redux/slices/sortSlice";
 import {
   selectCategories,
   setActiveCategoryId,
 } from "../redux/slices/categoriesSlice";
-import { fetchPizzas } from "../redux/slices/pizzaSlice";
+import { fetchPizzas, selectPizza } from "../redux/slices/pizzaSlice";
 
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { sortList } from "../components/Sort";
+import { selectSearch } from "../redux/slices/searchSlice";
 
-function Home() {
+const Home: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isMounted = useRef(false);
 
-  const { searchValue } = useSelector((state) => state.search);
-  const { items, status } = useSelector((state) => state.pizza);
+  const { searchValue } = useSelector(selectSearch);
+  const { items, status } = useSelector(selectPizza);
 
-  const { activeSort, sortList } = useSelector(selectSort);
+  const { activeSort } = useSelector(selectSort);
   const { activeCategoryId } = useSelector(selectCategories);
-  const { currentPage } = useSelector((state) => state.pagination);
+  const { currentPage } = useSelector(selectPagination);
 
   const isSearch = useRef(false);
 
@@ -36,7 +41,10 @@ function Home() {
     const category = activeCategoryId ? `&category=${activeCategoryId}` : "";
     const search = searchValue ? `&search=${searchValue}` : "";
 
-    dispatch(fetchPizzas({ sortBy, order, category, search, currentPage }));
+    dispatch(
+      //@ts-ignore
+      fetchPizzas({ sortBy, order, category, search, currentPage })
+    );
 
     window.scrollTo(0, 0);
   };
@@ -84,9 +92,7 @@ function Home() {
   }, []);
 
   const skeletons = [...new Array(4)].map((_, i) => <Skeleton key={i} />);
-  const pizzas = items.map((obj) => (
-    <PizzaBlock key={obj.id} {...obj} />
-  ));
+  const pizzas = items.map((obj: any) => <PizzaBlock key={obj.id} {...obj} />);
 
   return (
     <>
@@ -112,6 +118,6 @@ function Home() {
       <Pagination />
     </>
   );
-}
+};
 
 export default Home;

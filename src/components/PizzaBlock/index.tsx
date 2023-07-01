@@ -5,11 +5,27 @@ import { Link } from "react-router-dom";
 
 const typeNames = ["тонкое", "традиционное"];
 
-function PizzaBlock({ id, price, title, imageUrl, types, sizes }) {
+type PizzaBlockProps = {
+  id: string;
+  price: number;
+  title: string;
+  imageUrl: string;
+  types: number[];
+  sizes: number[];
+};
+
+const PizzaBlock: React.FC<PizzaBlockProps> = ({
+  id,
+  price,
+  title,
+  imageUrl,
+  types,
+  sizes,
+}) => {
   const dispatch = useDispatch();
   const cartItem = useSelector(selectCartItemById(id));
-  const [activeType, setActiveType] = useState(0);
-  const [activeSize, setActiveSize] = useState(0);
+  const [activeType, setActiveType] = useState<number>(0);
+  const [activeSize, setActiveSize] = useState<number>(0);
 
   const addedCount = cartItem ? cartItem.count : 0;
 
@@ -81,6 +97,6 @@ function PizzaBlock({ id, price, title, imageUrl, types, sizes }) {
       </div>
     </div>
   );
-}
+};
 
 export default PizzaBlock;

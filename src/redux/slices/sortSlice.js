@@ -1,14 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  sortList: [
-    { name: "популярности", sortProperty: "rating" },
-    { name: "популярности (DESC)", sortProperty: "-rating" },
-    { name: "цене", sortProperty: "price" },
-    { name: "цене (DESC)", sortProperty: "-price" },
-    { name: "алфавиту", sortProperty: "title" },
-    { name: "алфавиту (DESC)", sortProperty: "-title" },
-  ],
   activeSort: {
     name: "популярности (DESC)",
     sortProperty: "-rating",
@@ -29,7 +21,7 @@ export const sortSlice = createSlice({
   },
 });
 
-export const selectSort = (state) => state.sort
+export const selectSort = (state) => state.sort;
 
 export const { onSetActiveSort, onToggleSortList } = sortSlice.actions;
 export default sortSlice.reducer;

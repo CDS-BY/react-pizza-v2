@@ -1,16 +1,37 @@
 import { useSelector, useDispatch } from "react-redux";
-import { onToggleSortList, onSetActiveSort, selectSort } from "../../redux/slices/sortSlice";
+import {
+  onToggleSortList,
+  onSetActiveSort,
+  selectSort,
+} from "../../redux/slices/sortSlice";
 import { useEffect, useRef } from "react";
 
-function Sort() {
-  const { sortList, activeSort, isOpenSortList } = useSelector(
-    selectSort
-  );
+type SortItem = {
+  name: string;
+  sortProperty: string;
+};
+
+export const sortList: SortItem[] = [
+  { name: "популярности", sortProperty: "rating" },
+  { name: "популярности (DESC)", sortProperty: "-rating" },
+  { name: "цене", sortProperty: "price" },
+  { name: "цене (DESC)", sortProperty: "-price" },
+  { name: "алфавиту", sortProperty: "title" },
+  { name: "алфавиту (DESC)", sortProperty: "-title" },
+];
+
+const Sort: React.FC = () => {
+  const { activeSort, isOpenSortList } = useSelector(selectSort);
   const dispatch = useDispatch();
-  const sortRef = useRef();
+  const sortRef = useRef<HTMLDivElement>(null);
+
+  const onClickListItem = (obj: SortItem) => {
+    dispatch(onSetActiveSort(obj));
+    dispatch(onToggleSortList(false));
+  };
 
   useEffect(() => {
-    const handleClickOutside = (e) => {
+    const handleClickOutside = (e: any) => {
       if (!e.composedPath().includes(sortRef.current)) {
         dispatch(onToggleSortList(false));
       }
@@ -23,11 +44,6 @@ function Sort() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const onChooseActiveSort = (obj) => {
-    dispatch(onSetActiveSort(obj));
-    dispatch(onToggleSortList(false));
-  };
 
   return (
     <div ref={sortRef} className="sort">
@@ -55,7 +71,7 @@ function Sort() {
             {sortList.map((obj, i) => (
               <li
                 key={i}
-                onClick={() => onChooseActiveSort(obj)}
+                onClick={() => onClickListItem(obj)}
                 className={
                   activeSort.sortProperty === obj.sortProperty ? "active" : ""
                 }
@@ -68,6 +84,6 @@ function Sort() {
       )}
     </div>
   );
-}
+};
 
 export default Sort;

@@ -3,9 +3,9 @@ import ReactPaginate from "react-paginate";
 import { setCurrentPage } from "../../redux/slices/pagintionSlice";
 import { useDispatch } from "react-redux";
 
-function Pagination() {
+const Pagination: React.FC = () => {
   const dispatch = useDispatch();
-  const onChangePage = (page) => {
+  const onChangePage = (page: number) => {
     dispatch(setCurrentPage(page));
   };
   return (
@@ -19,10 +19,9 @@ function Pagination() {
         pageCount={3}
         previousLabel="<"
         renderOnZeroPageCount={null}
-        // forcePage={currentPage - 1}
       />
     </div>
   );
-}
+};
 
 export default Pagination;

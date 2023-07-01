@@ -11,20 +11,20 @@ import { useRef } from "react";
 import debounce from "lodash.debounce";
 import { useState, useCallback } from "react";
 
-function Search() {
+const Search: React.FC = () => {
   const [value, setValue] = useState("");
   const dispatch = useDispatch();
-  const inputRef = useRef();
-  
+  const inputRef = useRef<HTMLInputElement>(null);
+
   // eslint-disable-next-line
   const updateSearchValue = useCallback(
-    debounce((str) => {
+    debounce((str: string) => {
       dispatch(onChangeSearchValue(str));
     }, 500),
     []
   );
 
-  const onChangeInput = (e) => {
+  const onChangeInput = (e: any) => {
     setValue(e.target.value);
     updateSearchValue(e.target.value);
   };
@@ -32,7 +32,7 @@ function Search() {
   const onClearInput = () => {
     dispatch(onDeleteSearchValue());
     setValue("");
-    inputRef.current.focus();
+    inputRef.current?.focus();
   };
 
   return (
@@ -56,6 +56,6 @@ function Search() {
       )}
     </div>
   );
-}
+};
 
 export default Search;

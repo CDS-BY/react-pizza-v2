@@ -3,36 +3,33 @@ import {
   onToggleSortList,
   onSetActiveSort,
   selectSort,
+  SortPropertyEnum,
+  Sort,
 } from "../../redux/slices/sortSlice";
 import { useEffect, useRef } from "react";
 
-type SortItem = {
-  name: string;
-  sortProperty: string;
-};
-
-export const sortList: SortItem[] = [
-  { name: "популярности", sortProperty: "rating" },
-  { name: "популярности (DESC)", sortProperty: "-rating" },
-  { name: "цене", sortProperty: "price" },
-  { name: "цене (DESC)", sortProperty: "-price" },
-  { name: "алфавиту", sortProperty: "title" },
-  { name: "алфавиту (DESC)", sortProperty: "-title" },
+export const sortList: Sort[] = [
+  { name: 'популярности (DESC)', sortProperty: SortPropertyEnum.RATING_DESC },
+  { name: 'популярности (ASC)', sortProperty: SortPropertyEnum.RATING_ASC },
+  { name: 'цене (DESC)', sortProperty: SortPropertyEnum.PRICE_DESC },
+  { name: 'цене (ASC)', sortProperty: SortPropertyEnum.PRICE_ASC },
+  { name: 'алфавиту (DESC)', sortProperty: SortPropertyEnum.TITLE_DESC },
+  { name: 'алфавиту (ASC)', sortProperty: SortPropertyEnum.TITLE_ASC },
 ];
 
-const Sort: React.FC = () => {
+const SortPopup: React.FC = () => {
   const { activeSort, isOpenSortList } = useSelector(selectSort);
   const dispatch = useDispatch();
   const sortRef = useRef<HTMLDivElement>(null);
 
-  const onClickListItem = (obj: SortItem) => {
+  const onClickListItem = (obj: Sort) => {
     dispatch(onSetActiveSort(obj));
     dispatch(onToggleSortList(false));
   };
 
   useEffect(() => {
-    const handleClickOutside = (e: any) => {
-      if (!e.composedPath().includes(sortRef.current)) {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (sortRef.current && !e.composedPath().includes(sortRef.current)) {
         dispatch(onToggleSortList(false));
       }
     };
@@ -86,4 +83,4 @@ const Sort: React.FC = () => {
   );
 };
 
-export default Sort;
+export default SortPopup;

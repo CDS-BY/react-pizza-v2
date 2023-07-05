@@ -5,6 +5,7 @@ import sort from "./slices/sortSlice";
 import pagination from "./slices/pagintionSlice";
 import cart from "./slices/cartSlice";
 import pizza from "./slices/pizzaSlice";
+import { useDispatch } from "react-redux";
 
 export const store = configureStore({
   reducer: {
@@ -16,3 +17,8 @@ export const store = configureStore({
     pizza,
   },
 });
+
+export type RootState = ReturnType<typeof store.getState>;
+
+export type AppDispatch = typeof store.dispatch
+export const useAppDispatch: () => AppDispatch = useDispatch
